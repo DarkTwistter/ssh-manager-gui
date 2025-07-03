@@ -1,0 +1,54 @@
+.modal-input,
+.modal-btn,
+.custom-select {
+  height: 40px;
+  box-sizing: border-box;
+  font-size: 0.95rem;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 0 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #f7f7fa;
+  color: #23233a;
+  margin-bottom: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.modal-input[type="number"] {
+  padding-right: 0;
+}
+
+.modal-btn {
+  min-width: 100px;
+  background: #e0e7ef;
+  color: #23233a;
+  border: none;
+  border-radius: 8px;
+  padding: 0 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.group-input-container {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.add-group-btn {
+  min-width: auto;
+  padding: 0 16px;
+}
+
+/* Стили для select из select.css */
+.custom-select {
+  padding: 0 36px 0 12px;
+  background-position: center right 12px;
+}

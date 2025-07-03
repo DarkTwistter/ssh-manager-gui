@@ -1,0 +1,501 @@
+.app-layout {
+  display: flex;
+  height: 100vh;
+  background: #f7f7fa;
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.sidebar {
+  width: 200px;
+  min-width: 50px;
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 0 16px 0;
+  box-shadow: 2px 0 8px 0 rgba(0,0,0,0.01);
+  transition: width 0.18s cubic-bezier(.4,0,.2,1);
+  height: 100%;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  overflow: visible;
+}
+.sidebar.collapsed {
+  width: 50px;
+  min-width: 50px;
+  align-items: center;
+}
+.sidebar-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 12px 12px 12px;
+  box-sizing: border-box;
+}
+.sidebar.collapsed .sidebar-header {
+  padding: 20px 6px 12px 6px;
+  justify-content: center;
+}
+.sidebar-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #222;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+.sidebar-toggle {
+  background: none;
+  border: none;
+  color: #b3b3e6;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+.sidebar-toggle:hover {
+  background: #e0e7ef;
+}
+.sidebar-btn {
+  width: 85%;
+  background: #f5f5f7;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 0;
+  margin: 0 auto 8px auto;
+  font-size: 0.95rem;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.15s, width 0.18s cubic-bezier(.4,0,.2,1);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: flex-start;
+}
+.sidebar.collapsed .sidebar-btn {
+  width: 38px;
+  min-width: 38px;
+  padding: 8px 0;
+  justify-content: center;
+  gap: 0;
+}
+.sidebar-icon {
+  font-size: 1.25em;
+  display: block;
+  margin-left: 6px; /* Добавлен отступ слева */
+}
+
+.sidebar.collapsed .sidebar-icon {
+  margin-left: 0;
+}
+
+.main {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  height: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+.server-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 0 4px;
+  align-content: flex-start;
+  box-sizing: border-box;
+}
+
+.server-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
+  border: 1px solid #e0e0e0;
+  padding: 46px 16px 14px 16px; /* Увеличили отступ сверху */
+  cursor: pointer;
+  transition: box-shadow 0.15s, border 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: relative; /* Для позиционирования кнопки редактирования */
+}
+
+.server-card:hover {
+  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);
+  border: 1.5px solid #b3b3e6;
+}
+.server-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d2d3a;
+}
+.server-host {
+  font-size: 0.9rem;
+  color: #5a5a7a;
+}
+.server-user {
+  font-size: 0.85rem;
+  color: #8a8a9e;
+}
+.empty {
+  color: #b0b0c3;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: 60px;
+}
+
+/* Модальные окна */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(30, 34, 50, 0.18);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.13);
+  padding: 24px;
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-sizing: border-box;
+}
+
+.modal h3 {
+  margin: 0 0 12px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #23233a;
+  text-align: center;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #f7f7fa;
+  color: #23233a;
+  margin-bottom: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.modal-input:focus {
+  border-color: #b3b3e6;
+  box-shadow: 0 0 0 2px rgba(179, 179, 230, 0.1);
+}
+
+.modal select.modal-input {
+  cursor: pointer;
+  appearance: none;
+  padding-right: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 10L4 6h8l-4 4z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.modal-btn {
+  min-width: 100px;
+  background: #e0e7ef;
+  color: #23233a;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-btn:hover {
+  background: #b3b3e6;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.modal-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 4px 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.modal-checkbox input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+.server-edit-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  color: #b3b3e6;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, background-color 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.server-card:hover .server-edit-btn {
+  opacity: 1;
+}
+
+.server-edit-btn:hover {
+  background: #e0e7ef;
+  color: #6b6b9e;
+}
+
+.server-delete-btn {
+  position: absolute;
+  top: 12px;
+  right: 44px; /* Размещаем левее кнопки редактирования */
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  color: #ff6b6b;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s, background-color 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.server-card:hover .server-delete-btn {
+  opacity: 1;
+}
+
+.server-delete-btn:hover {
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff4f4f;
+}
+
+.main-header {
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.group-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.filter-icon {
+  color: #b3b3e6;
+  font-size: 1.1rem;
+}
+
+.group-select {
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  color: #23233a;
+  padding-right: 24px;
+  cursor: pointer;
+  appearance: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M8 10L4 6h8l-4 4z'/%3E%3C/svg%3E") no-repeat right center;
+}
+
+.server-group {
+  font-size: 0.8rem;
+  color: #6b6b9e;
+  background: #f0f0f7;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+  display: inline-block;
+}
+
+/* Стили для управления группами */
+.group-input-container {
+  display: flex;
+  gap: 8px;
+}
+
+.add-group-btn {
+  padding: 10px 16px;
+  min-width: auto;
+}
+
+.groups-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.group-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #f7f7fa;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.group-item:hover {
+  background: #f0f0f7;
+}
+
+.group-delete-btn {
+  background: none;
+  border: none;
+  padding: 6px;
+  border-radius: 4px;
+  color: #b3b3e6;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.group-delete-btn:hover {
+  opacity: 1;
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+}
+
+/* Стилизация select эле��ентов */
+select.modal-input,
+.group-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b3b3e6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 36px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+select.modal-input {
+  width: 100%;
+  padding: 10px 36px 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #f7f7fa;
+  color: #23233a;
+  margin-bottom: 8px;
+  outline: none;
+}
+
+select.modal-input:hover,
+.group-select:hover {
+  border-color: #b3b3e6;
+  background-color: #f0f0f7;
+}
+
+select.modal-input:focus,
+.group-select:focus {
+  border-color: #b3b3e6;
+  box-shadow: 0 0 0 2px rgba(179, 179, 230, 0.1);
+  background-color: #fff;
+}
+
+.group-select {
+  border: 1px solid transparent;
+  outline: none;
+  font-size: 0.95rem;
+  color: #23233a;
+  padding: 8px 36px 8px 12px;
+  border-radius: 6px;
+  min-width: 140px;
+  background-color: #fff;
+}
+
+/* Стилизация option */
+select.modal-input option,
+.group-select option {
+  padding: 8px;
+  background-color: #fff;
+  color: #23233a;
+}
+
+/* Убираем дефолтные стили для Firefox */
+select.modal-input::-moz-focus-inner,
+.group-select::-moz-focus-inner {
+  border: 0;
+}
+
+/* ��бирае�� обводку в Firefox */
+select.modal-input:-moz-focusring,
+.group-select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #23233a;
+}
+
+.confirm-message {
+  text-align: center;
+  color: #4a4a4a;
+  margin: 16px 0;
+  line-height: 1.5;
+}
+
+.modal-btn-danger {
+  background: #ff6b6b;
+  color: white;
+}
+
+.modal-btn-danger:hover {
+  background: #ff4f4f;
+  transform: translateY(-1px);
+}
+
+.server-card .server-title,
+.server-card .server-host,
+.server-card .server-user,
+.server-card .server-group {
+  max-width: calc(100%);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

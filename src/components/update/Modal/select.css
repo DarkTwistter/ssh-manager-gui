@@ -1,0 +1,58 @@
+/* Base styles */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Select element styling */
+.custom-select {
+  width: 100%;
+  padding: 10px 36px 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background-color: #f7f7fa;
+  color: #23233a;
+  cursor: pointer;
+  appearance: none;
+  transition: all 0.2s ease;
+}
+
+.custom-select:hover {
+  border-color: #b3b3e6;
+  background-color: #f0f0f7;
+}
+
+.custom-select:focus {
+  border-color: #b3b3e6;
+  box-shadow: 0 0 0 2px rgba(179, 179, 230, 0.1);
+  background-color: #fff;
+  outline: none;
+}
+
+/* Option styling */
+.custom-select option {
+  padding: 12px;
+  background-color: #fff;
+  color: #23233a;
+  cursor: pointer;
+}
+
+/* Styling for Webkit browsers (Chrome, Safari) */
+.custom-select::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-select::-webkit-scrollbar-track {
+  background: #f7f7fa;
+  border-radius: 4px;
+}
+
+.custom-select::-webkit-scrollbar-thumb {
+  background: #b3b3e6;
+  border-radius: 4px;
+}
+
+.custom-select::-webkit-scrollbar-thumb:hover {
+  background: #9494d8;
+}
