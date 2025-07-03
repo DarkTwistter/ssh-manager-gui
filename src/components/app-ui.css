@@ -310,24 +310,23 @@
 }
 
 .main-header {
-  margin-bottom: 24px;
+  padding: 16px 0;
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .group-filter {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #fff;
-  padding: 6px 12px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  margin-left: 16px;
 }
 
 .filter-icon {
-  color: #b3b3e6;
-  font-size: 1.1rem;
+  color: #666;
+  width: 20px;
+  height: 20px;
 }
 
 .group-select {

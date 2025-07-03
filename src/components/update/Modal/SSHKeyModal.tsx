@@ -1,25 +1,36 @@
 import React, { useState } from 'react';
+import { FiTrash2 } from 'react-icons/fi';
 import './modal.css';
+import './form.css';
 import { SSHKey } from '../../../types/config';
 
 interface SSHKeyModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSave: (key: SSHKey) => void;
+  onDelete: (name: string) => void;
+  sshKeys: SSHKey[];
 }
 
-const SSHKeyModal: React.FC<SSHKeyModalProps> = ({ isOpen, onClose, onSave }) => {
+const SSHKeyModal: React.FC<SSHKeyModalProps> = ({
+  isOpen,
+  onClose,
+  onSave,
+  onDelete,
+  sshKeys
+}) => {
   const [name, setName] = useState('');
   const [privateKey, setPrivateKey] = useState('');
-  const [publicKey, setPublicKey] = useState('');
 
   const handleSave = () => {
-    if (name && privateKey && publicKey) {
-      onSave({ name, privateKey, publicKey });
+    if (name && privateKey) {
+      onSave({
+        name,
+        privateKey,
+        publicKey: '' // Оставляем пустым, так как не используем
+      });
       setName('');
       setPrivateKey('');
-      setPublicKey('');
-      onClose();
     }
   };
 
@@ -28,34 +39,52 @@ const SSHKeyModal: React.FC<SSHKeyModalProps> = ({ isOpen, onClose, onSave }) =>
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h3>Добавить SSH ключ</h3>
-        <input
-          className="modal-input"
-          placeholder="Имя ключа"
-          value={name}
-          onChange={e => setName(e.target.value)}
-        />
-        <textarea
-          className="modal-input"
-          placeholder="Приватный ключ"
-          value={privateKey}
-          onChange={e => setPrivateKey(e.target.value)}
-        />
-        <textarea
-          className="modal-input"
-          placeholder="Публичный ключ"
-          value={publicKey}
-          onChange={e => setPublicKey(e.target.value)}
-        />
-        <div className="modal-actions">
+        <h3>SSH ключи</h3>
+        <div className="ssh-keys-form">
+          <input
+            className="modal-input"
+            placeholder="Имя ключа"
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
+          <textarea
+            className="modal-input"
+            placeholder="Приватный ключ"
+            value={privateKey}
+            onChange={e => setPrivateKey(e.target.value)}
+            rows={4}
+          />
           <button
             className="modal-btn"
             onClick={handleSave}
-            disabled={!name || !privateKey || !publicKey}
+            disabled={!name || !privateKey}
           >
-            Сохранить
+            Добавить ключ
           </button>
-          <button className="modal-btn" onClick={onClose}>Отмена</button>
+        </div>
+
+        <div className="ssh-keys-list">
+          <h4>Добавленные ключи:</h4>
+          {sshKeys.length === 0 ? (
+            <div className="empty-keys">Нет добавленных ключей</div>
+          ) : (
+            sshKeys.map(key => (
+              <div key={key.name} className="ssh-key-item">
+                <span>{key.name}</span>
+                <button
+                  className="key-delete-btn"
+                  onClick={() => onDelete(key.name)}
+                  title="Удалить ключ"
+                >
+                  <FiTrash2 />
+                </button>
+              </div>
+            ))
+          )}
+        </div>
+
+        <div className="modal-actions">
+          <button className="modal-btn" onClick={onClose}>Закрыть</button>
         </div>
       </div>
     </div>

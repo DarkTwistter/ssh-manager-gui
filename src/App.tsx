@@ -184,6 +184,8 @@ function App() {
         isOpen={showKeyModal}
         onClose={() => setShowKeyModal(false)}
         onSave={handleAddKey}
+        onDelete={handleDeleteKey}
+        sshKeys={sshKeys}
       />
       <GroupModal
         isOpen={showGroupModal}

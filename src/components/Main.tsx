@@ -52,20 +52,18 @@ const Main: React.FC<MainProps> = ({
       <div className="main-header">
         <div className="group-filter">
           <FiFilter className="filter-icon" />
-          <div className="select-wrapper">
-            <select
-              className="custom-select"
-              value={selectedGroupId}
-              onChange={(e) => setSelectedGroupId(e.target.value)}
-            >
-              <option value="">Все серверы</option>
-              {groups.map(group => (
-                <option key={group.id} value={group.id}>
-                  {group.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <select
+            className="custom-select"
+            value={selectedGroupId}
+            onChange={(e) => setSelectedGroupId(e.target.value)}
+          >
+            <option value="">Все серверы</option>
+            {groups.map(group => (
+              <option key={group.id} value={group.id}>
+                {group.name}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
@@ -102,7 +100,7 @@ const Main: React.FC<MainProps> = ({
                 <FiEdit2 />
               </button>
               <div className="server-title">{server.name}</div>
-              <div className="server-host">{server.host}:{server.port}</div>
+              <div className="server-host">{server.host}</div>
               <div className="server-user">{server.username}</div>
               {server.groupId && (
                 <div className="server-group">
