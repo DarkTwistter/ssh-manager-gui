@@ -39,17 +39,17 @@ const SSHKeyModal: React.FC<SSHKeyModalProps> = ({
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h3>SSH ключи</h3>
+        <h3>SSH Keys</h3>
         <div className="ssh-keys-form">
           <input
             className="modal-input"
-            placeholder="Имя ключа"
+            placeholder="Key name"
             value={name}
             onChange={e => setName(e.target.value)}
           />
           <textarea
             className="modal-input"
-            placeholder="Приватный ключ"
+            placeholder="Private key"
             value={privateKey}
             onChange={e => setPrivateKey(e.target.value)}
             rows={4}
@@ -59,14 +59,14 @@ const SSHKeyModal: React.FC<SSHKeyModalProps> = ({
             onClick={handleSave}
             disabled={!name || !privateKey}
           >
-            Добавить ключ
+            Add key
           </button>
         </div>
 
         <div className="ssh-keys-list">
-          <h4>Добавленные ключи:</h4>
+          <h4>Added keys:</h4>
           {sshKeys.length === 0 ? (
-            <div className="empty-keys">Нет добавленных ключей</div>
+            <div className="empty-keys">No keys added</div>
           ) : (
             sshKeys.map(key => (
               <div key={key.name} className="ssh-key-item">
@@ -74,7 +74,7 @@ const SSHKeyModal: React.FC<SSHKeyModalProps> = ({
                 <button
                   className="key-delete-btn"
                   onClick={() => onDelete(key.name)}
-                  title="Удалить ключ"
+                  title="Delete key"
                 >
                   <FiTrash2 />
                 </button>
@@ -84,7 +84,7 @@ const SSHKeyModal: React.FC<SSHKeyModalProps> = ({
         </div>
 
         <div className="modal-actions">
-          <button className="modal-btn" onClick={onClose}>Закрыть</button>
+          <button className="modal-btn" onClick={onClose}>Close</button>
         </div>
       </div>
     </div>

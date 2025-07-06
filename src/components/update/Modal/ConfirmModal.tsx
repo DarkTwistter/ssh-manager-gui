@@ -29,13 +29,13 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
             className="modal-btn modal-btn-danger"
             onClick={onConfirm}
           >
-            Удалить
+            Delete
           </button>
           <button
             className="modal-btn"
             onClick={onClose}
           >
-            Отмена
+            Cancel
           </button>
         </div>
       </div>

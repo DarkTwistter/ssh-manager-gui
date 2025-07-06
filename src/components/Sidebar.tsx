@@ -19,17 +19,17 @@ const Sidebar: React.FC<SidebarProps> = ({ onAddServer, onManageKeys, onManageGr
           {collapsed ? <FiChevronRight /> : <FiChevronLeft />}
         </button>
       </div>
-      <button className="sidebar-btn" onClick={onAddServer} title="Добавить сервер">
+      <button className="sidebar-btn" onClick={onAddServer} title="Add server">
         <FiPlus className="sidebar-icon" />
-        {!collapsed && 'Добавить сервер'}
+        {!collapsed && 'Add server'}
       </button>
-      <button className="sidebar-btn" onClick={onManageKeys} title="SSH ключи">
+      <button className="sidebar-btn" onClick={onManageKeys} title="SSH keys">
         <FiKey className="sidebar-icon" />
-        {!collapsed && 'SSH ключи'}
+        {!collapsed && 'SSH keys'}
       </button>
-      <button className="sidebar-btn" onClick={onManageGroups} title="Группы">
+      <button className="sidebar-btn" onClick={onManageGroups} title="Groups">
         <FiLayers className="sidebar-icon" />
-        {!collapsed && 'Группы'}
+        {!collapsed && 'Groups'}
       </button>
     </aside>
   );

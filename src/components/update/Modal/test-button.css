@@ -1,0 +1,32 @@
+.test-button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-right: 8px;
+  min-width: 100px;
+}
+
+.test-button.success {
+  background-color: #4caf50 !important;
+  color: white !important;
+  border-color: #45a049 !important;
+}
+
+.test-button.error {
+  background-color: #f44336 !important;
+  color: white !important;
+  border-color: #da190b !important;
+}
+
+.test-button.testing {
+  background-color: #2196f3 !important;
+  color: white !important;
+  border-color: #0d8bf2 !important;
+  cursor: wait !important;
+}
+
+.test-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed !important;
+}

@@ -2,6 +2,10 @@
 
 A modern desktop application for managing SSH connections with an elegant and user-friendly interface.
 
+
+![til](./showcase.gif)
+
+
 ## Features
 
 - **Server Management**

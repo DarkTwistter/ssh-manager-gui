@@ -5,6 +5,7 @@ import SSHKeyModal from './components/update/Modal/SSHKeyModal';
 import ServerModal from './components/update/Modal/ServerModal';
 import GroupModal from './components/update/Modal/GroupModal';
 import ConfirmModal from './components/update/Modal/ConfirmModal';
+import UpdateModal from './components/update/UpdateModal';
 import { SSHKey, Server, Group } from './types/config';
 import './App.css';
 import './components/app-ui.css';
@@ -195,11 +196,12 @@ function App() {
       />
       <ConfirmModal
         isOpen={!!serverToDelete}
-        title="Удаление сервера"
-        message={`Вы действительно хотите удалить сервер "${serverToDelete?.name}"?`}
+        title="Delete server"
+        message={`Are you sure you want to delete server "${serverToDelete?.name}"?`}
         onConfirm={handleConfirmDelete}
         onClose={() => setServerToDelete(null)}
       />
+      <UpdateModal />
     </div>
   );
 }

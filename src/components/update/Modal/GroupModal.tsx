@@ -31,11 +31,11 @@ const GroupModal: React.FC<GroupModalProps> = ({ isOpen, onClose, groups, onSave
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h3>Группы</h3>
+        <h3>Groups</h3>
         <div className="group-input-container">
           <input
             className="modal-input"
-            placeholder="Название новой группы"
+            placeholder="New group name"
             value={newGroupName}
             onChange={e => setNewGroupName(e.target.value)}
             onKeyPress={e => e.key === 'Enter' && handleAddGroup()}
@@ -45,7 +45,7 @@ const GroupModal: React.FC<GroupModalProps> = ({ isOpen, onClose, groups, onSave
             onClick={handleAddGroup}
             disabled={!newGroupName.trim()}
           >
-            Добавить
+            Add
           </button>
         </div>
 
@@ -58,7 +58,7 @@ const GroupModal: React.FC<GroupModalProps> = ({ isOpen, onClose, groups, onSave
         </div>
 
         <div className="modal-actions">
-          <button className="modal-btn" onClick={onClose}>Закрыть</button>
+          <button className="modal-btn" onClick={onClose}>Close</button>
         </div>
       </div>
     </div>

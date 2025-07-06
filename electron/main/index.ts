@@ -1,4 +1,4 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron'
+import { app, BrowserWindow, shell, ipcMain, Menu } from 'electron'
 import { createRequire } from 'node:module'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
@@ -7,6 +7,7 @@ import { update } from './update'
 import { spawn } from 'child_process'
 import fs from 'fs'
 import ConfigManager from '../../src/utils/config'
+import { Client } from 'ssh2'
 
 const require = createRequire(import.meta.url)
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -54,14 +55,34 @@ async function createWindow() {
     minWidth: 800,
     minHeight: 500,
     icon: path.join(process.env.VITE_PUBLIC, 'icon.svg'),
-    autoHideMenuBar: true, // Скрываем меню
+    autoHideMenuBar: process.env.NODE_ENV !== 'development', // Показываем меню только в режиме разработки
     webPreferences: {
       preload,
     },
   })
 
-  // Убираем меню полностью
-  win.removeMenu();
+  // Создаем меню только в режиме разработки
+  if (process.env.NODE_ENV === 'development') {
+    const template = [
+      {
+        label: 'Developer',
+        submenu: [
+          {
+            label: 'Toggle Developer Tools',
+            accelerator: process.platform === 'darwin' ? 'Alt+Command+I' : 'Alt+Shift+I',
+            click: () => {
+              win?.webContents.toggleDevTools();
+            },
+          },
+        ],
+      },
+    ];
+
+    const menu = Menu.buildFromTemplate(template);
+    win.setMenu(menu);
+  } else {
+    win.removeMenu();
+  }
 
   if (VITE_DEV_SERVER_URL) { // #298
     win.loadURL(VITE_DEV_SERVER_URL)
@@ -207,4 +228,36 @@ ipcMain.handle('update-group', (_, { id, group }) => {
 
 ipcMain.handle('remove-group', (_, id) => {
   ConfigManager.getInstance().removeGroup(id);
+});
+
+// Добавляем обработчик IPC для тестирования SSH-подключения
+ipcMain.handle('test-ssh-connection', async (_, connectionDetails) => {
+  return new Promise((resolve) => {
+    const conn = new Client();
+
+    conn.on('ready', () => {
+      conn.end();
+      resolve({ success: true });
+    });
+
+    conn.on('error', (err) => {
+      resolve({ success: false, error: err.message });
+    });
+
+    const config: any = {
+      host: connectionDetails.host,
+      port: connectionDetails.port,
+      username: connectionDetails.username,
+    };
+
+    if (connectionDetails.password) {
+      config.password = connectionDetails.password;
+    }
+
+    if (connectionDetails.keyValue) {
+      config.privateKey = connectionDetails.keyValue;
+    }
+
+    conn.connect(config);
+  });
 });

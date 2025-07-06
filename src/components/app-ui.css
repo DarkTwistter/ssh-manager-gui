@@ -224,7 +224,7 @@
 }
 
 .modal-btn {
-  min-width: 100px;
+  min-width: 110px;
   background: #e0e7ef;
   color: #23233a;
   border: none;
@@ -233,6 +233,7 @@
   font-size: 0.95rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  margin-right: 8px;
 }
 
 .modal-btn:hover {

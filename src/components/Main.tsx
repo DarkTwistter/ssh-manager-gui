@@ -57,7 +57,7 @@ const Main: React.FC<MainProps> = ({
             value={selectedGroupId}
             onChange={(e) => setSelectedGroupId(e.target.value)}
           >
-            <option value="">Все серверы</option>
+            <option value="">All servers</option>
             {groups.map(group => (
               <option key={group.id} value={group.id}>
                 {group.name}
@@ -70,7 +70,7 @@ const Main: React.FC<MainProps> = ({
       <div className="server-grid">
         {filteredServers.length === 0 ? (
           <div className="empty">
-            {selectedGroupId ? 'В этой группе нет серверов' : 'Нет добавленных серверов'}
+            {selectedGroupId ? 'No servers in this group' : 'No servers added'}
           </div>
         ) : (
           filteredServers.map(server => (
@@ -85,7 +85,7 @@ const Main: React.FC<MainProps> = ({
                   e.stopPropagation();
                   onDeleteServer(server);
                 }}
-                title="Удалить"
+                title="Delete"
               >
                 <FiTrash2 />
               </button>
@@ -95,7 +95,7 @@ const Main: React.FC<MainProps> = ({
                   e.stopPropagation();
                   onEditServer(server);
                 }}
-                title="Редактировать"
+                title="Edit"
               >
                 <FiEdit2 />
               </button>

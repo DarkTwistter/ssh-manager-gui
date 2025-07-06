@@ -1,10 +1,10 @@
 {
   "name": "ssh-manager",
   "productName": "SSH Manager",
-  "version": "2.2.0",
+  "version": "1.0.0",
   "main": "dist-electron/main/index.js",
-  "description": "Electron Vite React boilerplate.",
-  "author": "草鞋没号 <308487730@qq.com>",
+  "description": "SSH Manager GUI for managing SSH connections and configurations.",
+  "author": "DarkTwister (me787@yandex.ru)",
   "license": "MIT",
   "private": true,
   "debug": {
@@ -15,27 +15,36 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && electron-builder",
+    "build": "npm run generate-icons && tsc && vite build && electron-builder",
     "preview": "vite preview",
     "pretest": "vite build --mode=test",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:win": "npm run build && electron-builder --win --config",
+    "release": "electron-builder --win --publish always",
+    "publish": "npm run build && electron-builder --win --publish always",
+    "generate-icons": "node scripts/generate-icons.js"
   },
   "dependencies": {
     "electron-updater": "^6.3.9",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "ssh2": "^1.16.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.48.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
+    "@types/ssh2": "^1.15.5",
     "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.20",
     "electron": "^33.2.0",
     "electron-builder": "^24.13.3",
+    "i": "^0.3.7",
+    "png-to-ico": "^2.1.8",
     "postcss": "^8.4.49",
     "postcss-import": "^16.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "sharp": "^0.34.2",
     "tailwindcss": "^3.4.15",
     "typescript": "^5.4.2",
     "vite": "^5.4.11",

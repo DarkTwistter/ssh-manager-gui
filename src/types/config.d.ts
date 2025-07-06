@@ -19,6 +19,26 @@ declare global {
       addGroup: (group: Group) => Promise<void>;
       updateGroup: (id: string, group: Group) => Promise<void>;
       removeGroup: (id: string) => Promise<void>;
+
+      // Test SSH Connection
+      testSSHConnection: (connectionDetails: {
+        host: string;
+        port: number;
+        username: string;
+        password?: string;
+        keyValue?: string;
+      }) => Promise<{ success: boolean; error?: string }>;
+      checkUpdate: () => Promise<any>;
+      startDownload: () => Promise<void>;
+      quitAndInstall: () => Promise<void>;
+
+      // Update events
+      onUpdateAvailable: (callback: (info: { update: boolean; version: string; newVersion: string }) => void) => void;
+      onDownloadProgress: (callback: (info: { percent: number }) => void) => void;
+      onUpdateDownloaded: (callback: () => void) => void;
+      onUpdateError: (callback: (error: { message: string }) => void) => void;
+      removeAllListeners: () => void;
+
     };
   }
 }

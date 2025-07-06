@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "com.ssh.manager",
+  "appId": "com.ssh-manager.app",
   "productName": "SSH Manager",
   "asar": true,
   "directories": {
@@ -11,6 +11,7 @@
     "dist"
   ],
   "win": {
+    "icon": "build/icon.ico",
     "target": [
       {
         "target": "nsis",
@@ -19,8 +20,13 @@
         ]
       }
     ],
-    "artifactName": "${productName}_${version}.${ext}",
-    "icon": "build/icon.ico"
+    "artifactName": "${productName}_${version}.${ext}"
+  },
+  "mac": {
+    "icon": "build/icon.icns"
+  },
+  "linux": {
+    "icon": "build/icon.png"
   },
   "nsis": {
     "oneClick": false,
@@ -30,5 +36,12 @@
     "createDesktopShortcut": true,
     "createStartMenuShortcut": true,
     "shortcutName": "SSH Manager"
-  }
+  },
+  "publish": [{
+    "provider": "github",
+    "owner": "DarkTwistter",
+    "repo": "ssh-manager-gui",
+    "private": true,
+    "releaseType": "release"
+  }]
 }

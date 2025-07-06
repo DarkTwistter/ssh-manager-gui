@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './modal.css';
 import './form.css';
 import './select.css';
+import './test-button.css';
 import { SSHKey, Group } from '../../../types/config';
 
 interface Server {
@@ -43,6 +44,7 @@ const ServerModal: React.FC<ServerModalProps> = ({
   const [keyName, setKeyName] = useState('');
   const [useKey, setUseKey] = useState(false);
   const [groupId, setGroupId] = useState<string>('');
+  const [testStatus, setTestStatus] = useState<'none' | 'success' | 'error' | 'testing'>('none');
 
   // Инициализация полей при редактировании
   useEffect(() => {
@@ -68,6 +70,11 @@ const ServerModal: React.FC<ServerModalProps> = ({
     }
   }, [editServer, isOpen]);
 
+  // Сброс статуса теста при изменении формы
+  useEffect(() => {
+    setTestStatus('none');
+  }, [name, host, port, username, password, keyName, useKey]);
+
   const handleSave = () => {
     if (name && host && username && (useKey ? keyName : password)) {
       const selectedKey = sshKeys.find(k => k.name === keyName);
@@ -86,34 +93,57 @@ const ServerModal: React.FC<ServerModalProps> = ({
     }
   };
 
+  const handleTest = async () => {
+    if (!host || !username || (!useKey && !password) || (useKey && !keyName)) {
+      return;
+    }
+
+    setTestStatus('testing');
+    const selectedKey = sshKeys.find(k => k.name === keyName);
+
+    try {
+      const result = await window.electronAPI.testSSHConnection({
+        host,
+        port,
+        username,
+        password: useKey ? undefined : password,
+        keyValue: useKey ? selectedKey?.privateKey : undefined
+      });
+
+      setTestStatus(result.success ? 'success' : 'error');
+    } catch (error) {
+      setTestStatus('error');
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <h3>{editServer ? 'Редактировать сервер' : 'Добавить сервер'}</h3>
+        <h3>{editServer ? 'Edit server' : 'Add server'}</h3>
         <input
           className="modal-input"
-          placeholder="Имя"
+          placeholder="Name"
           value={name}
           onChange={e => setName(e.target.value)}
         />
         <input
           className="modal-input"
-          placeholder="Хост"
+          placeholder="Host"
           value={host}
           onChange={e => setHost(e.target.value)}
         />
         <input
           className="modal-input"
-          placeholder="Порт"
+          placeholder="Port"
           type="number"
           value={port}
           onChange={e => setPort(Number(e.target.value))}
         />
         <input
           className="modal-input"
-          placeholder="Пользователь"
+          placeholder="Username"
           value={username}
           onChange={e => setUsername(e.target.value)}
         />
@@ -123,7 +153,7 @@ const ServerModal: React.FC<ServerModalProps> = ({
             value={groupId}
             onChange={e => setGroupId(e.target.value)}
           >
-            <option value="">Без группы</option>
+            <option value="">No group</option>
             {groups.map(group => (
               <option key={group.id} value={group.id}>
                 {group.name}
@@ -137,7 +167,7 @@ const ServerModal: React.FC<ServerModalProps> = ({
               type="checkbox"
               checked={useKey}
               onChange={e => setUseKey(e.target.checked)}
-            /> Использовать SSH ключ
+            /> Use SSH key
           </label>
         </div>
         {useKey && (
@@ -147,7 +177,7 @@ const ServerModal: React.FC<ServerModalProps> = ({
               value={keyName}
               onChange={e => setKeyName(e.target.value)}
             >
-              <option value="">Выберите ключ</option>
+              <option value="">Select key</option>
               {sshKeys.map(key => (
                 <option key={key.name} value={key.name}>{key.name}</option>
               ))}
@@ -157,17 +187,30 @@ const ServerModal: React.FC<ServerModalProps> = ({
         {!useKey && (
           <input
             className="modal-input"
-            placeholder="Пароль"
+            placeholder="Password"
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
         )}
-        <div className="modal-actions">
-          <button className="modal-btn" onClick={handleSave}>
-            {editServer ? 'Сохранить' : 'Добавить'}
+        <div className="button-group justify-between">
+          <button
+            className={`modal-btn test-button ${
+              testStatus === 'success' ? 'success' :
+              testStatus === 'error' ? 'error' :
+              testStatus === 'testing' ? 'testing' : ''
+            }`}
+            onClick={handleTest}
+            disabled={testStatus === 'testing'}
+          >
+            {testStatus === 'success' ? '✓ Success' :
+             testStatus === 'error' ? '✕ Error' :
+             testStatus === 'testing' ? 'Testing...' : 'Test'}
           </button>
-          <button className="modal-btn" onClick={onClose}>Отмена</button>
+          <button className="modal-btn" onClick={handleSave}>
+            {editServer ? 'Save' : 'Add'}
+          </button>
+          <button className="modal-btn" onClick={onClose}>Cancel</button>
         </div>
       </div>
     </div>

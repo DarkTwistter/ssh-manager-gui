@@ -42,7 +42,32 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getGroups: () => ipcRenderer.invoke('get-groups'),
   addGroup: (group: Group) => ipcRenderer.invoke('add-group', group),
   updateGroup: (id: string, group: Group) => ipcRenderer.invoke('update-group', { id, group }),
-  removeGroup: (id: string) => ipcRenderer.invoke('remove-group', id)
+  removeGroup: (id: string) => ipcRenderer.invoke('remove-group', id),
+  // Test SSH Connection
+  testSSHConnection: (connectionDetails: any) => ipcRenderer.invoke('test-ssh-connection', connectionDetails),
+  checkUpdate: () => ipcRenderer.invoke('check-update'),
+  startDownload: () => ipcRenderer.invoke('start-download'),
+  quitAndInstall: () => ipcRenderer.invoke('quit-and-install'),
+
+  // Update events
+  onUpdateAvailable: (callback: (info: any) => void) => {
+    ipcRenderer.on('update-can-available', (_, info) => callback(info));
+  },
+  onDownloadProgress: (callback: (info: any) => void) => {
+    ipcRenderer.on('download-progress', (_, info) => callback(info));
+  },
+  onUpdateDownloaded: (callback: () => void) => {
+    ipcRenderer.on('update-downloaded', callback);
+  },
+  onUpdateError: (callback: (error: any) => void) => {
+    ipcRenderer.on('update-error', (_, error) => callback(error));
+  },
+  removeAllListeners: () => {
+    ipcRenderer.removeAllListeners('update-can-available');
+    ipcRenderer.removeAllListeners('download-progress');
+    ipcRenderer.removeAllListeners('update-downloaded');
+    ipcRenderer.removeAllListeners('update-error');
+  },
 })
 
 // --------- Preload scripts loading ---------

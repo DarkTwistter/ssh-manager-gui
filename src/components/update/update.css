@@ -1,24 +1,62 @@
-.modal-slot {
-  .update-progress {
-    display: flex;
-  }
+.update-modal {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  padding: 20px;
+  min-width: 300px;
+}
 
-  .new-version__target,
-  .update__progress {
-    margin-left: 40px;
-  }
+.update-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-  .progress__title {
-    margin-right: 10px;
-  }
+.update-content h2 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+}
 
-  .progress__bar {
-    width: 0;
-    flex-grow: 1;
-  }
+.update-content p {
+  margin: 0;
+  color: #666;
+}
 
-  .can-not-available {
-    padding: 20px;
-    text-align: center;
-  }
+.download-button {
+  background: #2196f3;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.download-button:hover {
+  background: #1976d2;
+}
+
+.download-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.download-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.update-error {
+  color: #f44336;
+  padding: 8px;
+  border-radius: 4px;
+  background: #ffebee;
+  font-size: 0.9em;
 }
